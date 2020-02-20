@@ -1,0 +1,12 @@
+<h1>What does the cow say?</h1>
+<p>
+    {{cowspeak}}
+</p>
+
+<form action="" method="POST">
+    {% csrf_token %}
+    Text: {{form.text}}
+    <input type="submit" value="Say Moo">
+</form>
+
+<a href="/history/">Your History Here</a>
