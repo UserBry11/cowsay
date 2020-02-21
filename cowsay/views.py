@@ -15,31 +15,35 @@ def Cow_Form(request):
         if form.is_valid():
             data = form.cleaned_data
             word = data['text']
+            avatar = data['choice']
+
             User_text.append(word)
+            while len(User_text) > 10:
+                User_text.pop(0)
 
-            cowspeak = subprocess.run(['cowsay', f'{word}'],
-                                      capture_output=True, text=True)
+            with open('avatars.txt', 'w') as wf:
+                subprocess.run(['cowthink',
+                                '-f', f'{avatar}.cow',
+                                f'{word}'], stdout=wf, text=True,)
 
-            form = MooForm()
+            with open('avatars.txt') as f:
+                cowthink = f.readlines()
 
-            return render(request, html, {
-                    'form': form,
-                    'cowspeak': cowspeak.stdout
-            })
+                form = MooForm()
+
+                return render(request, html, {
+                        'form': form,
+                        'cowthink': cowthink})
 
     form = MooForm()
 
-    return render(request, html, {
-        'form': form,
-    })
+    return render(request, html, {'form': form})
 
 
 def history(request):
     saying = ""
 
-    if len(User_text) > 10:
-        User_text.pop(0)
-    elif len(User_text) == 0:
+    if len(User_text) == 0:
         saying = "You gotta make the cow speak. You have 0 sayings"
 
     return render(request, "history.html", {

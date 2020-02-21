@@ -1,11 +1,19 @@
+<style>
+    body {
+        background-color: rgb(85, 202, 202);
+    }
+</style>
 <h1>What does the cow say?</h1>
-<p>
-    {{cowspeak}}
-</p>
+<pre>
+    {% for each in cowthink %}
+        {{each}}
+    {% endfor %}
+</pre>
 
 <form action="" method="POST">
     {% csrf_token %}
     Text: {{form.text}}
+    {{form.choice}}
     <input type="submit" value="Say Moo">
 </form>
 
