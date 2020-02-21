@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.utils import timezone
 
 class Author(models.Model):
     choices = [
@@ -38,3 +38,11 @@ class Author(models.Model):
     text = models.CharField(max_length=50, blank=True)
     choice = models.CharField(max_length=17,
                               choices=choices)
+
+
+class History(models.Model):
+    text = models.CharField(max_length=50, blank=True)
+    date = models.DateTimeField(default=timezone.now)
+
+    # def __str__(self):
+    #     return self.text

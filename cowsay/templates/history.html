@@ -1,12 +1,11 @@
 <a href="/">Back to HomePage</a>
 <h1>10 Most Recent Strings Submitted</h1>
 
-{{saying}}
 
-{% for each in history %}
+{% for each in moose %}
 <p>
     <ul>
-        <li>{{each}}</li>
+        <li>{{each.text}}<br>{{each.date}}</li>
     </ul>
 </p>
 {% endfor %}

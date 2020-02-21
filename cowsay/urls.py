@@ -18,9 +18,10 @@ from django.contrib import admin
 from django.urls import path
 
 from cowsay import views
-from cowsay.models import Author
+from cowsay.models import Author, History
 
 admin.site.register(Author)
+admin.site.register(History)
 
 urlpatterns = [
     path('admin/', admin.site.urls),

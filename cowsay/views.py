@@ -1,9 +1,7 @@
 from django.shortcuts import render
-
+from cowsay.models import History
 from cowsay.forms import MooForm
 import subprocess
-
-User_text = []
 
 
 def Cow_Form(request):
@@ -17,9 +15,9 @@ def Cow_Form(request):
             word = data['text']
             avatar = data['choice']
 
-            User_text.append(word)
-            while len(User_text) > 10:
-                User_text.pop(0)
+            History.objects.create(
+                text=word
+            )
 
             with open('avatars.txt', 'w') as wf:
                 subprocess.run(['cowthink',
@@ -33,7 +31,8 @@ def Cow_Form(request):
 
                 return render(request, html, {
                         'form': form,
-                        'cowthink': cowthink})
+                        'cowthink': cowthink
+                        })
 
     form = MooForm()
 
@@ -41,12 +40,8 @@ def Cow_Form(request):
 
 
 def history(request):
-    saying = ""
 
-    if len(User_text) == 0:
-        saying = "You gotta make the cow speak. You have 0 sayings"
+    moose = History.objects.order_by("-date")[:10]
+    print(type(moose))
 
-    return render(request, "history.html", {
-        "history": User_text,
-        "saying": saying
-        })
+    return render(request, "history.html", {"moose": moose})
